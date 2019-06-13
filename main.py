@@ -1,6 +1,6 @@
 import RPi.GPIO as GPIO
 from pygame import mixer
-
+import lirc
 
 
 
@@ -17,7 +17,7 @@ from pygame import mixer
 def init():
     mixer.init()
 
-
+def irsend(
 
 
 
