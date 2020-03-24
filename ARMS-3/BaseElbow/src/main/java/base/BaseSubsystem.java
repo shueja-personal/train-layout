@@ -9,13 +9,12 @@ import util.MathUtil;
 
 
 public class BaseSubsystem implements Subsystem{
-    private static final NXTRegulatedMotor BASE_YAW_LARGE_MOTOR = new NXTRegulatedMotor(BaseConstants.BASE_YAW_MOTOR_PORT);
-    private static final NXTRegulatedMotor BASE_PITCH_LARGE_MOTOR = new NXTRegulatedMotor(BaseConstants.BASE_PITCH_MOTOR_PORT);
+    private static final EV3LargeRegulatedMotor BASE_YAW_LARGE_MOTOR = new EV3LargeRegulatedMotor(BaseConstants.BASE_YAW_MOTOR_PORT);
+    private static final EV3LargeRegulatedMotor BASE_PITCH_LARGE_MOTOR = new EV3LargeRegulatedMotor(BaseConstants.BASE_PITCH_MOTOR_PORT);
     private static final RegulatedMotorListener BRAKE_LISTENER = new RegulatedMotorListener(){
         @Override
         public void rotationStopped(RegulatedMotor motor, int tachoCount, boolean stalled, long timeStamp) {
             // TODO Auto-generated method stub
-            motor.stop();
             System.out.println("Stopped motor " + motor.toString() + "at " + tachoCount);     
         }
 
@@ -26,13 +25,12 @@ public class BaseSubsystem implements Subsystem{
         }
     };   
     public BaseSubsystem(){
-        BASE_YAW_LARGE_MOTOR.addListener(BRAKE_LISTENER);
+        BASE_YAW_LARGE_MOTOR.brake();
         BASE_YAW_LARGE_MOTOR.setSpeed(1000);
-        BASE_PITCH_LARGE_MOTOR.addListener(BRAKE_LISTENER);
+        BASE_PITCH_LARGE_MOTOR.brake();
         BASE_PITCH_LARGE_MOTOR.setSpeed(1000);
     }
     public void goTo(int yawOutput, int pitchOutput) {
-        if ( !BASE_YAW_LARGE_MOTOR.isMoving() && !BASE_PITCH_LARGE_MOTOR.isMoving()) {
             yawOutput = ((yawOutput + 180) % 360) - 180;
             int yawTargetAngle = (int) (yawOutput * BaseConstants.BASE_YAW_MOTOR_DEG_PER_OUTPUT_DEG);
             int pitchTargetAngle = (int) (pitchOutput * BaseConstants.BASE_PITCH_MOTOR_DEG_PER_OUTPUT_DEG);
@@ -41,13 +39,13 @@ public class BaseSubsystem implements Subsystem{
             
             System.out.println("Yaw going to " + yawTargetAngle + " Pitch going to " + pitchTargetAngle);
             BASE_YAW_LARGE_MOTOR.setSpeed(500);
-            BASE_PITCH_LARGE_MOTOR.setSpeed(1000);
+            BASE_YAW_LARGE_MOTOR.setAcceleration(50);
+            BASE_PITCH_LARGE_MOTOR.setSpeed(500);
+            BASE_PITCH_LARGE_MOTOR.setAcceleration(50);
+            BASE_PITCH_LARGE_MOTOR.hold();
+            BASE_YAW_LARGE_MOTOR.hold();
             BASE_YAW_LARGE_MOTOR.rotateTo(yawTargetAngle, true);
-            BASE_PITCH_LARGE_MOTOR.rotateTo(yawOutput + pitchTargetAngle, true); //
-        }
-        else {
-            System.out.println("Motors already moving");
-        }    
+            BASE_PITCH_LARGE_MOTOR.rotateTo(yawOutput + pitchTargetAngle, true);
     }
 
     @Override
@@ -57,6 +55,10 @@ public class BaseSubsystem implements Subsystem{
     public void home(){
         BASE_PITCH_LARGE_MOTOR.resetTachoCount();
         BASE_YAW_LARGE_MOTOR.resetTachoCount();
+    }
+
+    public boolean isFinished(){
+        return !BASE_YAW_LARGE_MOTOR.isMoving();// && !BASE_PITCH_LARGE_MOTOR.isMoving(); 
     }
 
 
