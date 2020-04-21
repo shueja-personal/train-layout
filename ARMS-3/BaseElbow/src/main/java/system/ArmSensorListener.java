@@ -21,7 +21,7 @@ public class ArmSensorListener{
                     RobotContainer.stateMachine.setTargetState(ArmState.STORE);
 					break;
                 case STORE:
-                    RobotContainer.stateMachine.setTargetState(ArmState.SORT);
+                    RobotContainer.stateMachine.setTargetState(ArmState.HOMED);
 					break;
 				default:
 					break;

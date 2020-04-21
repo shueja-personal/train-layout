@@ -1,6 +1,5 @@
 package system;
 
-import base.BaseSubsystem;
 import brick.RobotContainer;
 
 public class ArmStateMachine {
@@ -18,10 +17,10 @@ public class ArmStateMachine {
                 dirArray =  new int[] {0, 0, 0, 0, 0, 0, 0};
 					break;
                 case SORT:
-                    dirArray = new int[] {90, 45, 0, 0, 0, 0, 0};
+                    dirArray = new int[] {90, 90, 90, 90, 0, 0, 0};
 					break;
                 case STORE:
-                    dirArray = new int[] {-90, -45, 0, 0, 0, 0, 0};
+                    dirArray = new int[] {-90, -10, -90, 90, 0, 0, 0};
 					break;
                 default:
                     throw new IllegalArgumentException("state must be one of HOMED, SORT, STORE. Given " + state);
@@ -48,7 +47,7 @@ public class ArmStateMachine {
             currentState = targetState;
             
         }
-        System.out.println(currentState);
+        
     }
 
     public boolean setTargetState(ArmState state){

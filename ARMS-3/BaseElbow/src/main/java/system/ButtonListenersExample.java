@@ -1,11 +1,5 @@
 package system;
 
-import ev3dev.sensors.Button;
-import ev3dev.sensors.EV3Key;
-import lejos.hardware.Key;
-import lejos.hardware.KeyListener;
-import lombok.extern.slf4j.Slf4j;
-
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -14,6 +8,11 @@ import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import ev3dev.sensors.Button;
+import ev3dev.sensors.EV3Key;
+import lejos.hardware.Key;
+import lejos.hardware.KeyListener;
 
 
 public class ButtonListenersExample {

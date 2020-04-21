@@ -4,17 +4,18 @@ import java.util.Arrays;
 import java.util.List;
 
 import base.BaseSubsystem;
+import elbow.ElbowSubsystem;
 import ev3dev.sensors.Button;
 import lejos.hardware.Key;
 import system.ArmKeyListener;
 import system.ArmSensorListener;
 import system.ArmStateMachine;
 import system.Subsystem;
-import system.ArmStateMachine.ArmState;
 
 public class RobotContainer {
 
     private static BaseSubsystem base = new BaseSubsystem();
+    private static ElbowSubsystem elbow = new ElbowSubsystem();
     public static ArmStateMachine stateMachine = new ArmStateMachine(ArmStateMachine.ArmState.HOMED);
     public static ArmSensorListener sensorListener = new ArmSensorListener();
     private static final List<Key> BUTTONS_FOR_LISTENERS = Arrays.asList(new Key[] {
@@ -31,13 +32,14 @@ public class RobotContainer {
     public static void robotInit(){
 
        configureButtons();
-       System.out.println("Base Homing");
-       home(base);
+       System.out.println("Base, Elbow Homing");
+       home(base, elbow);
 
     }
 
     public static void robotPeriodic(){
         base.periodic();
+        elbow.periodic();
         sensorListener.periodic();
         stateMachine.periodic();
 
@@ -57,10 +59,11 @@ public class RobotContainer {
     }
     public static void goTo(int[] array){
         base.goTo(array[0], array[1]);
+        elbow.goTo(array[2], array[3]);
     }
 
 	public static boolean reachedDestination() {
-		return base.isFinished();
+		return base.isFinished() && elbow.isFinished();
 	}
 
 }

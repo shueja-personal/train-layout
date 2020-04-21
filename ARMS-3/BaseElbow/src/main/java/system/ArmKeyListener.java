@@ -1,10 +1,6 @@
 package system;
 
-import java.util.Arrays;
-import java.util.List;
-
 import brick.RobotContainer;
-import ev3dev.sensors.Button;
 import lejos.hardware.Key;
 import lejos.hardware.KeyListener;
 import system.ArmStateMachine.ArmState;
