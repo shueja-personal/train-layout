@@ -1,4 +1,4 @@
-package base;
+package main.java.base;
 
 import lejos.hardware.port.MotorPort;
 import lejos.hardware.port.Port;

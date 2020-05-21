@@ -1,4 +1,4 @@
-package base;
+package main.java.base;
 
 import ev3dev.actuators.lego.motors.EV3LargeRegulatedMotor;
 import system.Subsystem;

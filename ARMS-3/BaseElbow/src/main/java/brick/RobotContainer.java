@@ -63,7 +63,7 @@ public class RobotContainer {
     }
 
 	public static boolean reachedDestination() {
-		return base.isFinished() && elbow.isFinished();
+		return base.isFinished();
 	}
 
 }
